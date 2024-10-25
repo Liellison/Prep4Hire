@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var multiSelection = Set<UUID>()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            List {
+                ForEach(topics.subjects) { subject in
+                    Section(header: Text(subject.name)) {
+                        ForEach(subject.staff) { theme in
+                            NavigationLink(destination: ThemeDetailView(theme: theme)) {
+                                ThemeRowView(theme: theme)
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Staff Directory")
+            Text("No Selection")
+                .font(.headline)
         }
-        .padding()
+        Text("\(multiSelection.count) selections")
     }
 }
 
